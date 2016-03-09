@@ -53,6 +53,13 @@ test "email validation should reject invalid addresses" do
   	assert_not duplicate_user.valid?
   end
 
+  test "email addresses should be saved as lowercase" do
+    mixed_case_email = "FoO@ExAmpLe.CoM"
+    @user.email = mixed_case_email
+    @user.save
+    assert_equal mixed_case_email.downcase, @user.reload.email
+  end
+
   test "password should be present (nonblank)" do
     @user.password = @user.password_confirmation = " " * 6
     assert_not @user.valid?
